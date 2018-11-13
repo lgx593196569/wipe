@@ -50,15 +50,17 @@ var moveY;
 function drawnew(context,movex,movey,a,b){
 	context.save();
 	context.beginPath();
-	if(arguments.length == 3){
+	if(arguments.length === 3){
 		context.arc(movex,movey,radius,0,2*Math.PI)
 		context.fillStyle = "rgb(255,0,0)";
 		context.fill();
-	}else if(arguments.length == 5){
+	}else if(arguments.length === 5){
 		context.lineCap = "round";
 		context.moveTo(movex,movey);
 		context.lineTo(a,b);
 		context.lineWidth = radius*2;
+	}else{
+		return false;
 	}
 	context.stroke();
 	context.restore();
