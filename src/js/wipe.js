@@ -3,6 +3,18 @@ var context = cas.getContext("2d");
 var _w = cas.width;
 var _h = cas.height;
 var radius = 30;
+//device保存设备类型,如果是移动端则为false,按下true
+var device = (/android|webos|iPhone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
+console.log(device);
+if(device == true){
+	Eventdown = "touchstart";
+	Eventmove = "touchmove";
+	Eventup = "touchend";
+}else{
+	Eventdown = "mousedown";
+	Eventmove = "mousemove";
+	Eventup = "mouseup";
+}
 //生成画布上的遮盖,默认为颜色#666
 function drawRect(context){
 	// context.save();
@@ -15,53 +27,72 @@ function drawRect(context){
 //在画布上画半径为30的圆
 var moveX;
 var moveY;
-function drawPoint(context,movex,movey){
+// function drawPoint(context,movex,movey,a,b){
+// console.log("传递的实参个数:"+arguments.length)
+// 	context.save();
+// 	context.beginPath();
+// 	context.arc(movex,movey,radius,0,2*Math.PI)
+// 	context.fillStyle = "rgb(255,0,0)";
+// 	context.fill();
+// 	context.restore();
+// }
+// function drawLine(context,movex,movey,a,b){
+// console.log("传递的实参个数:"+arguments.length)
+// 	context.save();
+// 	context.lineCap = "round";
+// 	context.beginPath();
+// 	context.moveTo(movex,movey);
+// 	context.lineTo(a,b);
+// 	context.lineWidth = radius*2;
+// 	context.stroke();
+// 	context.restore();
+// }
+function drawnew(context,movex,movey,a,b){
 	context.save();
 	context.beginPath();
-	context.arc(movex,movey,radius,0,2*Math.PI)
-	context.fillStyle = "rgb(255,0,0)";
-	context.fill();
-	context.restore();
-}
-function drawLine(context,movex,movey,a,b){
-	context.save();
-	context.lineCap = "round";
-	context.beginPath();
-	context.moveTo(movex,movey);
-	context.lineTo(a,b);
-	context.lineWidth = radius*2;
+	if(arguments.length == 3){
+		context.arc(movex,movey,radius,0,2*Math.PI)
+		context.fillStyle = "rgb(255,0,0)";
+		context.fill();
+	}else if(arguments.length == 5){
+		context.lineCap = "round";
+		context.moveTo(movex,movey);
+		context.lineTo(a,b);
+		context.lineWidth = radius*2;
+	}
 	context.stroke();
 	context.restore();
 }
 var xx = false;//表示鼠标的状态,是否按下,默认为未按下false,按下true;
 //在canvas画布上监听自定义事件"mousedown",调用drawPoint函数
-cas.addEventListener("mousedown",function(evt){
+cas.addEventListener(Eventdown,function(evt){
 	var event = evt || window.event;
-	//获取鼠标在视口的坐标,传递参数到drawPoint
-	moveX = event.clientX;
-	moveY = event.clientY;
-	// console.log(moveX,moveY);
-	drawPoint(context,moveX,moveY);
+		moveX = device ? event.touches[0].clientX : event.clientX;
+		moveY = device ? event.touches[0].clientY : event.clientY;
+		//获取鼠标在视口的坐标,传递参数到drawPoint
+		// console.log(moveX,moveY);
+	drawnew(context,moveX,moveY);
 	xx = true;
 },false)
 //增加监听"mousemove",调用drawPoint函数
-cas.addEventListener("mousemove",function(evt){
+cas.addEventListener(Eventmove,function(evt){
 	if(xx == true){
 		var event = evt || window.event;
-		//获取鼠标在视口的坐标,传递参数到drawPoint
-		var a = event.clientX;
-		var b = event.clientY;
+		event.preventDefault();
+		//获取手指在视口的坐标,传递参数到drawPoint
+		var a = device ? event.touches[0].clientX : event.clientX;
+		var b = device ? event.touches[0].clientY : event.clientY;
 		// console.log(moveX,moveY);
 		// drawPoint(context,a,b);
-		drawLine(context,moveX,moveY,a,b);
+		drawnew(context,moveX,moveY,a,b);
 		//每次的结束点变成下一次划线的开始点
 		moveX = a;
 		moveY = b;
 	}else{
 		return false;
-	}	
+	}
 },false)
-cas.addEventListener("mouseup",function(){
+cas.addEventListener(Eventup,function(){
 	xx = false;
 	// var pixArr = [];
 	// var imgData = context.getImageData(0,0,_w,_h);
