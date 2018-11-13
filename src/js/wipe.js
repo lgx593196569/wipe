@@ -47,6 +47,7 @@ var moveY;
 // 	context.stroke();
 // 	context.restore();
 // }
+// 使用单个函数代替画点和画线
 function drawnew(context,movex,movey,a,b){
 	context.save();
 	context.beginPath();
