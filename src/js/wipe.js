@@ -6,7 +6,7 @@ var radius = 30;
 //device保存设备类型,如果是移动端则为false,按下true
 var device = (/android|webos|iPhone|ipad|ipod|blackberry|iemobile|opera mini/i.test(navigator.userAgent.toLowerCase()));
 console.log(device);
-if(device == true){
+if(device){
 	Eventdown = "touchstart";
 	Eventmove = "touchmove";
 	Eventup = "touchend";
@@ -52,7 +52,7 @@ function drawnew(context,movex,movey,a,b){
 	context.save();
 	context.beginPath();
 	if(arguments.length === 3){
-		context.arc(movex,movey,radius,0,2*Math.PI)
+		context.arc(movex,movey,radius,0,2*Math.PI);
 		context.fillStyle = "rgb(255,0,0)";
 		context.fill();
 	}else if(arguments.length === 5){
@@ -76,10 +76,10 @@ cas.addEventListener(Eventdown,function(evt){
 		// console.log(moveX,moveY);
 	drawnew(context,moveX,moveY);
 	xx = true;
-},false)
+},false);
 //增加监听"mousemove",调用drawPoint函数
 cas.addEventListener(Eventmove,function(evt){
-	if(xx == true){
+	if(xx){
 		var event = evt || window.event;
 		event.preventDefault();
 		//获取手指在视口的坐标,传递参数到drawPoint
@@ -94,7 +94,7 @@ cas.addEventListener(Eventmove,function(evt){
 	}else{
 		return false;
 	}
-},false)
+},false);
 cas.addEventListener(Eventup,function(){
 	xx = false;
 	// var pixArr = [];
@@ -114,7 +114,7 @@ cas.addEventListener(Eventup,function(){
 	// console.log(pixArr.length);
 	// console.log((pixArr.length/(_w*_h))*100+"%");
 	clearRect(context);
-})
+});
 function clearRect(context){
 	if(getTransparencyPercent(context) > 50){
 		context.clearRect(0,0,_w,_h);
@@ -126,7 +126,7 @@ function getTransparencyPercent(context){
 	for(var i = 0;i <_h;i++){
 		for(var j = 0;j <_w;j++){
 			var Alpha = ((_w*i)+j)*4+3;//Alpha在数组中的位置
-			if(zz.data[Alpha] == 0){
+			if(zz.data[Alpha] === 0){
 				t++;
 			}
 		}
@@ -138,4 +138,4 @@ function getTransparencyPercent(context){
 }
 window.onload = function(){
 	drawRect(context);
-}
+};

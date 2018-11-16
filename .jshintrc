@@ -1,6 +1,6 @@
 {
 	"sub":true,
-	"boss":rrue,
+	"boss":true,
 	"curly":true,
 	"eqeqeq":true,
 	"eqnull":true
