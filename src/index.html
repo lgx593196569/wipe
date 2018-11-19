@@ -3,23 +3,64 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-	<title>wipe组件</title>
+	<title>wipe 组件</title>
 	<style>
 		html,body{
 			width: 100%;
 			height: 100%;
-			margin:0;
+			margin: 0;
 			padding: 0;
 		}
 		#cas{
 			border: 1px solid #000;
-			background: url(images/wipe1.jpg) center 0 no-repeat;
+			/*background: url(images/wipe1.jpg) center 0 no-repeat;*/
 			background-size: cover;
 		}
 	</style>
 </head>
 <body>
-	<canvas id="cas" width="375" height="667"></canvas>
+	<div style="margin-top: 220px;margin-left: 100px;">
+		<div style="margin-top: 220px;margin-left: 100px;">
+			<canvas id="cas"></canvas>
+			<canvas id="cas1" width="375" height="667"></canvas>
+		</div>
+	</div>
 </body>
 </html>
 <script src="js/wipe.js"></script>
+<script>
+	var wipeConfig = {
+		id:"cas",
+		coverType:"color",//取值类型color、image
+		color:"#899",
+		imgUrl:"images/wipe2.jpg",//前面的覆盖图
+		backImgUrl:"images/wipe2.jpg",//背景图片
+		width:"375",//canvas宽
+		height:"667",//canvas高
+		radius:"20", //涂抹笔的半径.
+		percent:50,//透明面积占整个画布的百分比,超出此数字显示全部画布
+		callback:wipedCallback,//用户自定义回调函数名称
+	}
+	var wipeConfig1 = {
+		id:"cas1",
+		coverType:"image",//取值类型color、image
+		color:"#899",
+		imgUrl:"images/wipe2.jpg",//前面的覆盖图
+		backImgUrl:"images/wipe1.jpg",//背景图片
+		width:"375",//canvas宽
+		height:"667",//canvas高
+		radius:"20", //涂抹笔的半径
+		percent:50,//透明面积占整个画布的百分比,超出此数字显示全部画布
+		callback:wipedCallback //用户自定义回调函数名称
+	}
+	var cas01 = new Wipe(wipeConfig);
+	var cas02 = new Wipe(wipeConfig1);
+	function wipedCallback(percent){
+		var percent = that.getTransparencyPercent();
+		that.callback.call(null,percent);
+		if (  percent > 50) {
+			alert("超过了50%的面积");
+			that.clearRect();
+		}
+	}
+</script>
