@@ -56,11 +56,10 @@
 	var cas01 = new Wipe(wipeConfig);
 	var cas02 = new Wipe(wipeConfig1);
 	function wipedCallback(percent){
-		var percent = that.getTransparencyPercent();
-		that.callback.call(null,percent);
-		if (  percent > 50) {
-			alert("超过了50%的面积");
-			that.clearRect();
-		}
+		setTimeout(function(){
+			if (  percent > 50) {
+				console.log("超过了50%的面积");
+			}
+		},1000)
 	}
 </script>

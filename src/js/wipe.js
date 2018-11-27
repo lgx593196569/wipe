@@ -1,5 +1,5 @@
 /*
-	eamil:1259821073@qq.com
+	eamil:593196569@qq.com
 	data:2018-11-16
 */
 function Wipe(obj){
@@ -69,7 +69,10 @@ Wipe.prototype.getTransparencyPercent = function(){
 		}
 	}
 	this.percent = ( _t / ( this._w * this._h ) ) * 100;
-	console.log( Math.ceil(this.percent) + "%");
+	var thiss = this;
+	setTimeout(function(){
+		console.log( Math.ceil(thiss.percent) + "%");
+	},1000);
 	return this.percent.toFixed(2);
 	// return Math.ceil(percent);
 };
@@ -141,10 +144,12 @@ Wipe.prototype.addEvent = function(){
 		that.isMouseDown = false;
 		var percent = that.getTransparencyPercent();
 		that.callback.call(null,percent);
-		if (  percent > 50) {
-			alert("超过了50%的面积");
-			that.clearRect();
-		}
+		setTimeout(function(){
+			if (  percent > 50) {
+				// alert("超过了50%的面积");
+				that.clearRect();
+			}
+		},1000)
 	},false);
 };
 Wipe.prototype.backImg = function(){
