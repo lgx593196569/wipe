@@ -142,11 +142,11 @@ Wipe.prototype.addEvent = function(){
 	},false);
 	this.cas.addEventListener(endEvtName,function(evt){
 		that.isMouseDown = false;
-		var percent = that.getTransparencyPercent();
-		that.callback.call(null,percent);
 		setTimeout(function(){
+			var percent = that.getTransparencyPercent();
+			that.callback.call(null,percent);
 			if (  percent > 50) {
-				// alert("超过了50%的面积");
+				console.log("超过了50%的面积");
 				that.clearRect();
 			}
 		},1000)

@@ -56,10 +56,8 @@
 	var cas01 = new Wipe(wipeConfig);
 	var cas02 = new Wipe(wipeConfig1);
 	function wipedCallback(percent){
-		setTimeout(function(){
-			if (  percent > 50) {
-				console.log("超过了50%的面积");
-			}
-		},1000)
+		if (  percent > 50) {
+			// console.log("超过了50%的面积");
+		}
 	}
 </script>
